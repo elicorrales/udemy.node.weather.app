@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{>head}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+        <title>{{title}}</title>
+    </head>
+    <body>
+        <div class="main-content">
+            {{>pageheader}}
+            {{message}}
+            <input type="text" id="address" placeholder="Enter Address Here" onkeyup="doWeather(event,this)"/>
+            <div id="weather">
+            </div>
+        </div>
+        {{>pagefooter}}
+    </body>
+    <script src="js/location.js"></script>
+    <script src="js/home.js"></script>
+</html>

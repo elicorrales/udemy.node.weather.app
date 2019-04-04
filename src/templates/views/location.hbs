@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{>head}}
+        <title>{{title}}</title>
+<!--
+-->
+    </head>
+    <body>
+        <div class="main-content">
+            {{>pageheader}}
+            {{message}}
+            <p/>
+            <input type="text" id="address" placeholder="Enter Address Here" 
+                onkeyup="doLocation(event,this)" autofocus
+                size="100"/>
+            <div id="location1"></div>
+            <p/>
+            <div id="maploc1"></div>
+            <p/>
+            <div id="location2"></div>
+            <p/>
+            <div id="maploc2"></div>
+        </div>
+        {{>pagefooter}}
+    </body>
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    -->
+    <script src="js/axios.min.js"></script>
+    <script src="js/location.js"></script>
+</html>
