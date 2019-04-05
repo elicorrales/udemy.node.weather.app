@@ -1,25 +1,15 @@
 /* eslint-disable no-console */
 'use strict';
 
-const location = (geoloc,req,res) => {
-    if (req.query !== '') {
-        if (req.query.address && req.query.address.length > 2) {
-            geoloc.getGeolocation(req.query.address)
-                .then(result => {
-                    res.send(result);
-                })
-                .catch(error => {
-                    if (error.response) {
-                        res.send(error.response.status + ' ' + error.response.statusText);
-                    } else {
-                        res.send(error);
-                    }
-                });
+const location = (geoloc,httpreq,httpres) => {
+    if (httpreq.query !== '') {
+        if (httpreq.query.address && httpreq.query.address.length > 2) {
+            geoloc.getGeolocation(encodeURIComponent(httpreq.query.address),httpres);
         } else {
-            let error = {
-                msg: 'Missing Address Or Too Short'
-            };
-            res.send(error);
+            let error = { msg: 'Missing Address Or Too Short' };
+            //httpres.statusCode = 500;
+            httpres.status(500);
+            httpres.send(error);
         }
     }
 };

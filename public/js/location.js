@@ -21,33 +21,43 @@ const getMap = (lat,lng,mapElemId) => {
         )
 };
 
-const getLocation = (url,locElemId,label,mapElemId) => {
-    axios.get(url)
+const getLocation = (locationparms) => {
+
+    const {path,headingId,locationId,mapInfoId} = locationparms; 
+
+    let headElem = document.getElementById(headingId);
+    let locElem = document.getElementById(locationId);
+    axios.get(path)
         .then(
             result => {
-                //console.log(result);
-                //console.log(result.data);
-                let locElem = document.getElementById(locElemId);
                 let url = result.data.url;
                 let adr = result.data.address;
-                let lat = result.data.location.lat;
-                let lng = result.data.location.lng;
-                let msg = result.data.msg;
-                let error = result.data.error;
-                let output;
-                if (error) { output = error;}
-                else if(msg) { output = msg;}
-                else if (lat && lng) {
-                    output = url + '<br/>' + adr + '<br/>' + lat + ' , ' + lng;
-                    getMap(lat,lng,mapElemId);
-                }
-                locElem.innerHTML = '<p>' + label + ' : ' + output + '</p>';
+                let lat = result.data.latlng.lat;
+                let lng = result.data.latlng.lng;
+                headElem.innerHTML = url;
+                let output = adr + '<br/>' + 'lat: ' + lat + ' , lng: ' + lng;
+                locElem.innerHTML = '<p>' + output + '</p>';
+                getMap(lat,lng,mapInfoId);
             }
         )
         .catch(
             error => {
-                //console.log(error);
-                location.innerHTML = '<p>' + error + '</p>';
+                if (error.response && error.response.data) {
+                    if (error.response.data.message) {
+                        let output = error.response.data.message;
+                        locElem.innerHTML = '<p>' + output + '</p>';
+                    } else {
+                        locElem.innerHTML = '';
+                    }
+                    if (error.response.data.url) {
+                        let output = error.response.data.url;
+                        headElem.innerHTML = '<p>' + output + '</p>';
+                    } else {
+                        headElem.innerHTML = '';
+                    }
+                }
+                let mapElem = document.getElementById(mapInfoId);
+                mapElem.innerHTML = '';
             }
         );
 
@@ -59,13 +69,27 @@ const doLocation = (event,obj) => {
     if (obj.value.length < 2 || event.code != 'Enter') {
         return;
     }
-    document.getElementById('location1').innerHTML = '';
-    document.getElementById('location2').innerHTML = '';
-    document.getElementById('maploc1').innerHTML = '';
-    document.getElementById('maploc2').innerHTML = '';
+    document.getElementById('locurl1').innerHTML = 'Loading Location Service 1...';
+    document.getElementById('locurl2').innerHTML = 'Loading Location Service 2...';
+    document.getElementById('location1').innerHTML = 'Loading Location Info...';
+    document.getElementById('location2').innerHTML = 'Loading Location Info...';
+    document.getElementById('maploc1').innerHTML = 'Loading Map Info...';
+    document.getElementById('maploc2').innerHTML = 'Loading Map Info...';
     const address = encodeURI(obj.value);
-    getLocation('/location/1?address='+address,'location1','Location Service 1','maploc1');
-    getLocation('/location/2?address='+address,'location2','Location Service 2','maploc2');
+    locationParms1 = {
+        path:'/location/1?address='+address,
+        headingId:'locurl1',
+        locationId:'location1',
+        mapInfoId:'maploc1'
+    };
+    getLocation(locationParms1);
+    locationParms2 = {
+        path:'/location/2?address='+address,
+        headingId:'locurl2',
+        locationId:'location2',
+        mapInfoId:'maploc2'
+    };
+    getLocation(locationParms2);
 
 };
 

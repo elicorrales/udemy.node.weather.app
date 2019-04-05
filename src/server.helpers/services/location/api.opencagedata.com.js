@@ -2,32 +2,40 @@
 'use strict';
 const axios = require('axios');
 
-const getGeolocation = (address) => {
-    const encodedAddress = encodeURIComponent(address);
+const baseUrl = 'https://api.opencagedata.com';
+const basePath = '/geocode/v1/json?';
+const key = '&key=bb823af9d2c3422a8019ac9c927f61f1';
 
-    // geocod.io gelocation
-    const base = 'https://api.opencagedata.com/geocode/v1/json?';
-    const key = '&key=bb823af9d2c3422a8019ac9c927f61f1';
-    //const query = 'q=PLACENAME&'+encodedAddress;
+const onResolve = (result,httpres) => {
+    const data = {};
+    data.url = baseUrl;
+    data.statusText = result.statusText;
+    if (result.data && result.data.results) {
+        data.latlng = result.data.results[0].geometry;
+        data.address = result.data.results[0].formatted;
+    }
+    httpres.send(data);
+};
+
+const onReject = (error,httpres) => {
+    let data = {
+        url:baseUrl,
+        errno:error.errno,
+        host:error.host
+    };
+    if (error.response) {
+        httpres.status(error.response.status);
+        data.message = error.response.statusText;
+    }
+    httpres.send(data);
+};
+
+const getGeolocation = (encodedAddress,httpres) => {
     const query = 'q='+encodedAddress;
-    const url = base + query + key;
-
-    return new Promise((resolve,reject) => {
-        axios.get(url)
-            .then(response => {
-                let results = {
-                    url,
-                    address:response.data.results[0].formatted,
-                    location:response.data.results[0].geometry,
-                    mapUrl:response.data.results[0].annotations.OSM.url
-                }
-                resolve(results);
-            }) .catch(error => {
-                let errMsg = { 'error' : ''+error};
-                reject(errMsg);
-            });
-
-    })
+    const url = baseUrl + basePath + query + key;
+    axios.get(url)
+        .then(result=>onResolve(result,httpres))
+        .catch(error=>onReject(error,httpres));
 };
 
 module.exports = {
