@@ -13,7 +13,6 @@ const weather  = require('./src/server.helpers/server.weather');
 const weather1 = require('./src/server.helpers/services/weather/api.darksky.net');
 const weather2 = require('./src/server.helpers/services/weather/api.openweathermap.org');
 
-//const map      = require('./src/server.helpers/server.map');
 const map      = require('./src/server.helpers/services/map/open.mapquestapi.com');
 
 const viewToRender = require('./src/server.helpers/server.viewToRender');

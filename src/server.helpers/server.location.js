@@ -8,7 +8,7 @@ const location = (geoloc,httpreq,httpres) => {
         } else {
             let error = { message: 'Missing Address Or Too Short' };
             //httpres.statusCode = 500;
-            httpres.status(500);
+            httpres.status(400);
             httpres.send(error);
         }
     }

@@ -8,9 +8,8 @@ const getMap = (req,res) => {
         const baseUrl = 'http://open.mapquestapi.com/staticmap/v5/map?';
         const key     = 'key=KDAegN3LovvE3Cs6PEKUjGGnX27f6rFd';
         const latlng  = '&center='+req.query.lat+','+req.query.lng;
-        const config  = '&scale='+req.zoom+'&size=300,300&zoom=7';
+        const config  = '&size=300,300&zoom='+req.query.zoom;
         const mapUrl  = baseUrl + key + latlng + config;
-        console.log(mapUrl);
         const date    = new Date();
         const time    = date.getHours()+'.'+date.getMinutes()+'.'+date.getSeconds()+'.'+date.getMilliseconds();
         const filename  = 'map.img.'+time+'.jpg';
