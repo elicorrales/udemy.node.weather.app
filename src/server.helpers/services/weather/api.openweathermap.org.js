@@ -4,10 +4,11 @@ const axios = require('axios');
 
 const getWeather = (lat,lng,httpres) => {
 
-    const base = 'https://api.openweathermap.org/data/2.5/weather?';
+    const baseUrl = 'https://api.openweathermap.org';
+    const basePath = '/data/2.5/weather?';
     const key = '&appid=74b60ebdff399e2b337af26c9245948a';
-    const query = 'lat='+lat + '&lon=' + lng;
-    const url = base + query + key;
+    const query = 'lat='+lat + '&lon=' + lng + '&units=imperial';
+    const url = baseUrl + basePath + query + key;
     console.log(url);
 
     axios.get(url)
@@ -15,6 +16,7 @@ const getWeather = (lat,lng,httpres) => {
             //console.log(response.data.main.temp);
             //console.log(response.data.weather[0].main);
             const data = {
+                url:baseUrl,
                 weather:response.data.weather[0].main,
                 temp:response.data.main.temp
             }

@@ -9,15 +9,19 @@
             {{>pageheader}}
             <h2>{{message}}</h2>
             <p/>
-            Location - Enter Address To Get Geolocation
+            In the 'Address to Locate' input, enter address to get geolocation, map, weather
             <ul>
-                <li>The server will try different location services</li>
+                <li>The server will try different location services to obtain lat,lng</li>
+                <li>It will then try map service to obtain map image</li>
+                <li>It will then try different weather services to obtain current weather and temperature</li>
             </ul>
             <p/>
-            Weather - Enter Address To Get Weather
+            <p/>
+            Once You are seeing map image(s), you can click on the zoom icons to zoom in or out
             <ul>
-                <li>The server will try different weather services</li>
+                <li>The server will repeat the entire sequence above</li>
             </ul>
+            <p/>
         </div>
         {{>pagefooter}}
     </body>

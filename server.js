@@ -5,6 +5,8 @@ const express = require('express');
 const hbs     = require('hbs');
 const path    = require('path');
 
+const init     = require('./src/server.helpers/server.init');
+
 const location = require('./src/server.helpers/server.location');
 const geoloc1  = require('./src/server.helpers/services/location/api.geocod.io');
 const geoloc2  = require('./src/server.helpers/services/location/api.opencagedata.com');
@@ -40,6 +42,11 @@ server.get('/',(req,res) => {
     viewToRender.renderHome(req,res);
 });
 
+server.get('/home',(req,res) => {
+    console.log('You requested ' + req.path);
+    viewToRender.renderHome(req,res);
+});
+
 server.get('/about',(req,res) => {
     console.log('You requested ' + req.path);
     viewToRender.renderAbout(req,res);
@@ -51,8 +58,8 @@ server.get('/help',(req,res) => {
 });
 
 server.get('/location', (req, res) => {
-     //res.send('you need either /location/1 or /location/2');
-    viewToRender.renderLocation(req,res);
+    console.log('You requested ' + req.path + '.  You need either /1 or /2');
+    viewToRender.renderHome(req,res);
 });
 server.get('/location/1', (req, res) => {
     console.log('You requested ' + req.path);
@@ -82,6 +89,9 @@ server.get('*', (req, res) => {
     console.log('Redirect - You requested ' + req.path);
     res.redirect('/');
 });
+
+
+init.cleanMapImgDir();
 
 server.listen(port,host,1,() => {
     console.log('weather-server is UP');

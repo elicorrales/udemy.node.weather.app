@@ -12,7 +12,23 @@
             </div>
             <p/>
             <div>
-                {{message}}
+                <p>I started this app just to play around with and learn node.js.</p>
+                <p>The inspiration for it was a Udemy course:
+                    <a href="https://www.udemy.com/the-complete-nodejs-developer-course-2">The Complete Node.js Developer Course (3rd Edition)</a>.
+                </p>
+                <p>I went quite a bit further with the material when it goes into the weather-server.</p>
+                <p>The backend is node.js (of course) with *.hbs files to serve up the 'home','about', and 'help' pages. It uses 'axios' to make http requests to backend remote services (location, map, weather).</p>
+                <p>The front end is vanilla javascript, but it uses 'axios' for async http requests, and 'bootstrap' for some styling.</p>
+            </div>
+            <p/>
+            <div class="container">
+                <div class="col-md-5" style="padding-left: 0px;  padding-right: 0px;">
+                    <p/>
+                    <img src="./img/weather.server.architecture.diag.1.png" class="img-responsive">
+                </div>
+                <div class="col-md-5" style="padding-left: 0px;  padding-right: 0px;">
+                    <img src="./img/weather.server.screenshot.png" class="img-responsive">
+                </div>
             </div>
         </div>
         {{>pagefooter}}

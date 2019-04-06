@@ -1,20 +1,109 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {{>head}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
-        <title>{{title}}</title>
-    </head>
-    <body>
-        <div class="main-content">
-            {{>pageheader}}
-            {{message}}
-            <input type="text" id="address" placeholder="Enter Address Here" onkeyup="doWeather(event,this)"/>
-            <div id="weather">
-            </div>
+
+<head>
+    {{>head}}
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <div class="main-content">
+        {{>pageheader}}
+        <div class="form-group">
+            <label for="addressSearchEntry">Address To Locate:</label>
+            <input class="form-control input-lg" type="text" id="addressSearchEntry"
+                placeholder="Type Address Here and Hit <ENTER>" autofocus 
+                onkeyup="doLocationSearch(event,this)"
+                onchange="doCheckShouldDisableZooms()"
+                />
         </div>
-        {{>pagefooter}}
-    </body>
-    <script src="js/location.js"></script>
-    <script src="js/home.js"></script>
+
+        <div class="row">
+
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> <div id="locurl1">Location 1</div> </div>
+                        <div class="panel-body">
+                            <div id="location1">Details Will Be Here..</div>
+                            <p />
+                            <div id="maploc1">Map Will Be Here...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> <div id="weatherUrl11">Weather 1</div> </div>
+                        <div class="panel-body">
+                            <div id="weather11">Weather 1 Will Be Here...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> <div id="weatherUrl12">Weather 2</div> </div>
+                        <div class="panel-body">
+                            <div id="weather12">Weather 2 Will Be Here...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 text-center">
+                        <h1><i id="zoomIn" class="glyphicon glyphicon-zoom-in" 
+                                onmousedown="doDownOnZoomIn()"
+                                onmouseup="doUpOnZoomIn()"
+                                onclick="doZoomIn()" 
+                                onmouseover="doFocusOnZoomIn()" onmouseout="doNotFocusOnZoomIn()"
+                                >
+                                </i></h1>
+                        <h1><i id="zoomOut" class="glyphicon glyphicon-zoom-out" 
+                                onmousedown="doDownOnZoomOut()"
+                                onmouseup="doUpOnZoomOut()"
+                                onclick="doZoomOut()" 
+                                onmouseover="doFocusOnZoomOut()" onmouseout="doNotFocusOnZoomOut()"
+                                >
+                                </i></h1>
+            </div>
+
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> <div id="locurl2">Location 2</div> </div>
+                        <div class="panel-body">
+                            <div id="location2">Details Will Be Here...</div>
+                            <p />
+                            <div id="maploc2">Map Will Be Here...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> <div id="weatherUrl21">Weather 1</div> </div>
+                        <div class="panel-body">
+                            <div id="weather21">Weather 1 Will Be Here...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> <div id="weatherUrl22">Weather 2</div> </div>
+                        <div class="panel-body">
+                            <div id="weather22">Weather 2 Will Be Here...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {{>pagefooter}}
+</body>
+<!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    -->
+<script src="js/axios.min.js"></script>
+<script src="js/location.js"></script>
+
 </html>

@@ -21,12 +21,14 @@ const tryEnableSearchEntry = (locationId) => {
     }
 };
 
-const getWeather = (url,weatherId) => {
+const getWeather = (url,weatherHeadingId,weatherId) => {
+    let weatherHeadingElem = document.getElementById(weatherHeadingId);
     let weatherElem = document.getElementById(weatherId);
     axios.get(url)
         .then(
             result => {
                 console.log(result);
+                weatherHeadingElem.innerHTML = result.data.url;
                 weatherElem.innerHTML = '<p>'+result.data.weather+' , '+ result.data.temp+ ' degrees</p>';
             }
         )
@@ -38,14 +40,14 @@ const getWeather = (url,weatherId) => {
         )
 }
 
-const getWeathers = (lat,lng,weatherId1,weatherId2) => {
+const getWeathers = (lat,lng,weatherHeadingId1,weatherHeadingId2,weatherId1,weatherId2) => {
     const url1 ='/weather/1?lat='+lat+'&lng='+lng;
-    getWeather(url1,weatherId1);
+    getWeather(url1,weatherHeadingId1,weatherId1);
     const url2 ='/weather/2?lat='+lat+'&lng='+lng;
-    getWeather(url2,weatherId2);
+    getWeather(url2,weatherHeadingId2,weatherId2);
 };
 
-const getMap = (lat,lng,mapElemId,locationId,weatherId1,weatherId2) => {
+const getMap = (lat,lng,mapElemId,locationId,weatherHeadingId1,weatherHeadingId2,weatherId1,weatherId2) => {
     const url = '/map?lat='+lat+'&lng='+lng+'&zoom='+zoom;
     axios.get(url)
         .then(
@@ -53,7 +55,7 @@ const getMap = (lat,lng,mapElemId,locationId,weatherId1,weatherId2) => {
                 if(result.data && result.data.filename) {
                     let mapElem = document.getElementById(mapElemId);
                     mapElem.innerHTML = '<p><img src="http://localhost:8080/img/maps/' + result.data.filename + '"/></p>';
-                    getWeathers(lat,lng,weatherId1,weatherId2);
+                    getWeathers(lat,lng,weatherHeadingId1,weatherHeadingId2,weatherId1,weatherId2);
                 }
                 tryEnableSearchEntry(locationId);
             }
@@ -68,7 +70,7 @@ const getMap = (lat,lng,mapElemId,locationId,weatherId1,weatherId2) => {
 
 const getLocation = (locationparms) => {
 
-    const {path,headingId,locationId,mapInfoId,weatherId1,weatherId2} = locationparms; 
+    const {path,headingId,locationId,mapInfoId,weatherHeadingId1,weatherHeadingId2,weatherId1,weatherId2} = locationparms; 
 
     let headElem = document.getElementById(headingId);
     let locElem = document.getElementById(locationId);
@@ -83,7 +85,7 @@ const getLocation = (locationparms) => {
                     let lat = result.data.latlng.lat;
                     let lng = result.data.latlng.lng;
                     output +=  '<br/>' + 'lat: ' + lat + ' , lng: ' + lng;
-                    getMap(lat,lng,mapInfoId,locationId,weatherId1,weatherId2);
+                    getMap(lat,lng,mapInfoId,locationId,weatherHeadingId1,weatherHeadingId2,weatherId1,weatherId2);
                 } else {
                     tryEnableSearchEntry(locationId);
                 }
@@ -123,6 +125,8 @@ const getLocations = () => {
         headingId:'locurl1',
         locationId:'location1',
         mapInfoId:'maploc1',
+        weatherHeadingId1:'weatherUrl11',
+        weatherHeadingId2:'weatherUrl12',
         weatherId1:'weather11',
         weatherId2:'weather12',
     };
@@ -132,6 +136,8 @@ const getLocations = () => {
         headingId:'locurl2',
         locationId:'location2',
         mapInfoId:'maploc2',
+        weatherHeadingId1:'weatherUrl21',
+        weatherHeadingId2:'weatherUrl22',
         weatherId1:'weather21',
         weatherId2:'weather22',
     };
@@ -196,7 +202,7 @@ const disableControls = () => {
 const doZoomIn = () => {
     if (!zoomsEnabled) { return; }
     disableControls();
-    zoom+=1;
+    if (zoom<20) zoom+=1;//max value for mapquest static maps v5
     getLocations();
 };
 
@@ -204,7 +210,7 @@ const doZoomIn = () => {
 const doZoomOut = () => {
     if (!zoomsEnabled) { return; }
     disableControls();
-    zoom-=1;
+    if (zoom>0) zoom-=1;
     getLocations();
 };
 
