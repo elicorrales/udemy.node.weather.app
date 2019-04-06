@@ -31,13 +31,16 @@ const getLocation = (locationparms) => {
         .then(
             result => {
                 let url = result.data.url;
-                let adr = result.data.address;
-                let lat = result.data.latlng.lat;
-                let lng = result.data.latlng.lng;
                 headElem.innerHTML = url;
-                let output = adr + '<br/>' + 'lat: ' + lat + ' , lng: ' + lng;
+                let adr = result.data.address;
+                let output = adr;
+                if (result.data.latlng) {
+                    let lat = result.data.latlng.lat;
+                    let lng = result.data.latlng.lng;
+                    output +=  '<br/>' + 'lat: ' + lat + ' , lng: ' + lng;
+                    getMap(lat,lng,mapInfoId);
+                }
                 locElem.innerHTML = '<p>' + output + '</p>';
-                getMap(lat,lng,mapInfoId);
             }
         )
         .catch(

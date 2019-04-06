@@ -10,9 +10,12 @@ const onResolve = (result,httpres) => {
     const data = {};
     data.url = baseUrl;
     data.statusText = result.statusText;
-    if (result.data && result.data.results) {
+    if (result.data && result.data.results && result.data.results.length > 0) {
         data.latlng = result.data.results[0].geometry;
         data.address = result.data.results[0].formatted;
+    } else {
+        httpres.status(400);
+        data.message = 'No Address Result';
     }
     httpres.send(data);
 };
@@ -26,6 +29,9 @@ const onReject = (error,httpres) => {
     if (error.response) {
         httpres.status(error.response.status);
         data.message = error.response.statusText;
+    } else if(error.message) {
+        httpres.status(500);
+        data.message = error.message;
     }
     httpres.send(data);
 };
