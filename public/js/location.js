@@ -2,8 +2,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 
+var zoom = 0;
+
 const getMap = (lat,lng,mapElemId) => {
-    const url = '/map?lat='+lat+'&lng='+lng;
+    const url = '/map?lat='+lat+'&lng='+lng+'&zoom='+zoom;
     axios.get(url)
         .then(
             result => {
@@ -95,6 +97,16 @@ const doLocation = (event,obj) => {
     getLocation(locationParms2);
 
 };
+
+const doZoomIn = () => {
+    zoom+=1;
+};
+
+
+const doZoomOut = () => {
+    zoom-=1;
+};
+
 
 
 
